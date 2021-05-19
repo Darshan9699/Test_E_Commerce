@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckoutRequest;
+use App\Mail\OrderPlaced;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -10,10 +11,21 @@ use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Expr\Cast\Double;
 
 class CheckoutController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -96,20 +108,20 @@ class CheckoutController extends Controller
                 //insert into product_order tabel 
 
                 foreach (Cart::content() as $item) {
-                    // OrderProduct::create([
-                    //     'order_id' => $order->id,
-                    //     'product_id' => $item->model->id,
-                    //     'quantity' => $item->qty,
-                    // ]);
+                    OrderProduct::create([
+                        'order_id' => $order->id,
+                        'product_id' => $item->model->id,
+                        'quantity' => $item->qty,
+                    ]);
 
-                    $order_id = $order->id;
-                    $product_id = $item->model->id;
-                    $quantity = $item->qty;
-                    DB::insert('insert into order_products (order_id, product_id, quantity) values ('.$order_id.','.$product_id.','.$quantity.')');
+                    // $order_id = $order->id;
+                    // $product_id = $item->model->id;
+                    // $quantity = $item->qty;
+                    // DB::insert('insert into order_products(order_id, product_id, quantity) values ('.$order_id.','.$product_id.','.$quantity.')');
                 }
 
 
-
+            Mail::send(new OrderPlaced($order));
 
             //success 
             Cart::instance('default')->destroy();

@@ -152,7 +152,7 @@
                                         <span class="top__text__right">Total</span>
                                     </li>
                                 @foreach (Cart::content() as $item)
-                                <li>{{ $item->model->name }}<br>{{ $item->model->details }} <span>${{ $item->model->presentPrice() }}</span></li>
+                                <li>{{ $item->model->product_name }}<br>{{ $item->model->details }} <span>${{ $item->model->presentPrice() }}</span></li>
                                 @endforeach
                                 </ul>
                             </div>

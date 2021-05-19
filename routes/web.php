@@ -71,6 +71,14 @@ Route::delete('/cart/{product}',[CartController::class,'destroy'])->name('cart.d
 Route::get('/thankyou', [ConfirmationController::class,'index'])->name('confirmation.index');
 Auth::routes();
 
+//check mailable
+
+Route::get('/mailable', function(){
+    $order = App\Models\Order::find(11);
+    return new App\Mail\OrderPlaced($order);
+});
+
+
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
