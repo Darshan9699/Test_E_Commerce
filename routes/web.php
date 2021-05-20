@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ConfirmationController;
@@ -105,8 +106,10 @@ Route::group(['prefix'=>'admin'], function(){
         //Delete Products
         Route::delete('product/delete/{id}',[AdminProductController::class,'destroy'])->name('admin.destroy');
 
-        // change status
-
+        //Products change status
         Route::get('products/changeStatus', [AdminProductController::class,'changeStatus']);
+
+        Route::get('users',[AdminUserController::class,'index'])->name('admin.users');
+        Route::get('users/changeStatus',[AdminUserController::class,'userChangeStatus']);
     });
 });
