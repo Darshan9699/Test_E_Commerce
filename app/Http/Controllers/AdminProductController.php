@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\CategoryProduct;
 use Illuminate\Http\Request;
 
 class AdminProductController extends Controller
@@ -27,7 +29,8 @@ class AdminProductController extends Controller
      */
     public function create()
     {
-        return view('admin.Products.add');
+        $allCategories = Category::all();
+        return view('admin.Products.add')->with('allCategories',$allCategories);
     }
 
     /**
@@ -71,9 +74,18 @@ class AdminProductController extends Controller
         $product->featured = $request->has('featured');
         $product->save();
 
+        //  //enter to category
+        // if($request->category) {
+        //     foreach($request->category as $category){
+        //         $id = $product->id;
+        //         CategoryProduct::create([
+        //             'product_id' => $id,
+        //             'category_id'=> $category
+        //         ]);
+        //     }
+        // }
 
         // $imageName = time().'.'.$request->image->extension();  
-
         // $request->image->move(public_path('images'), $imageName);
 
         return redirect()->route('admin.products')->with('success_message','your Product is create succesfully');
@@ -101,7 +113,12 @@ class AdminProductController extends Controller
     public function edit($id)
     {
         $product = Product::where('id',$id)->first();
-        return view('admin.Products.edit')->with('products', $product);
+        $allCategories = Category::all();
+
+        return view('admin.Products.edit')->with([
+            'products' => $product,
+            'allCategories' => $allCategories
+        ]);
 
     }
 
@@ -145,6 +162,18 @@ class AdminProductController extends Controller
         $product->featured = $request->has('featured');
         $product->save();
 
+        //try to store Category Products
+
+        CategoryProduct::where('product_id',$id)->delete();
+
+        if($request->category) {
+            foreach($request->category as $category){
+                CategoryProduct::create([
+                    'product_id' => $id,
+                    'category_id'=> $category
+                ]);
+            }
+        }
         return redirect()->route('admin.products')->with('success_message','your Product is Update succesfully');
     }
 
