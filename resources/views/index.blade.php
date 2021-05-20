@@ -90,7 +90,15 @@
                     <ul class="product__hover">
                         <li><a href="{{ asset('/images/'.$product->image) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
                         {{-- <li><a href="#"><span class="icon_heart_alt"></span></a></li> --}}
-                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                        <li>
+                            <form action="{{ route('cart.store') }}" method="POST" >
+                                {{ csrf_field() }}
+                            <input type="hidden" name="id" value="{{ $product->id }}">
+                            <input type="hidden" name="name" value="{{ $product->name }}">
+                            <input type="hidden" name="price" value="{{ $product->price }}">
+                            <button type="submit" style="border-radius: 50px ;height: 50px ;width: 50px ;font-size: 18px;color: #111111;display: inline-block;background: #ffffff;line-height: 48px;text-align: center;transition: all, 0.5s;"><span class="icon_bag_alt"></span></button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
                 <div class="product__item__text">

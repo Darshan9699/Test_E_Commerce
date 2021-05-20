@@ -49,5 +49,6 @@ class Product extends Model
         return number_format($this->product_pirce, 2);
     }
 
+    
    
 }

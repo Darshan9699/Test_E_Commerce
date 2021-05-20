@@ -79,7 +79,7 @@
                         @foreach ($orders as $order)
                         <tr>
                             <td>{{ $order->id }}</td>
-                            <td>{{ $order->user_id }}</td>
+                            <td>{{ $order->user->name }}</td>
                             <td>{{ $order->billing_email  }}</td>
                             <td>{{ $order->billing_name  }}</td>
                             <td>{{ $order->billing_address  }}</td>
