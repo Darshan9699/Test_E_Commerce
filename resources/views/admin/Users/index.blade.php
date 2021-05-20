@@ -32,7 +32,7 @@
             <h1 class="m-0 text-dark">{{ __('Admin Manage Users') }}</h1>
           </div><!-- /.col -->
           <div class="col-sm-2">
-                <a href="{{ route('admin.create') }}" class="btn btn-block btn-success">Add To User</a>
+                <a href="{{ route('admin.users.create') }}" class="btn btn-block btn-success">Add To User</a>
           </div>
           
           <div class="col-sm-6">

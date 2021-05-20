@@ -110,6 +110,8 @@ Route::group(['prefix'=>'admin'], function(){
         Route::get('products/changeStatus', [AdminProductController::class,'changeStatus']);
 
         Route::get('users',[AdminUserController::class,'index'])->name('admin.users');
+        Route::get('users/create',[AdminUserController::class,'create'])->name('admin.users.create');
+        Route::post('users/create',[AdminUserController::class,'store'])->name('admin.users.store');
         Route::get('users/changeStatus',[AdminUserController::class,'userChangeStatus']);
     });
 });
