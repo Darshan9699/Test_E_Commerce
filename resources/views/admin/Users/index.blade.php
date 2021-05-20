@@ -76,10 +76,10 @@
                               <input type="checkbox" class="toggle-class" data-bootstrap-switch data-on="Avilable" data-off="Not Avilable" data-onstyle="danger" data-offstyle="success" data-id={{ $user->id }} {{ $user->status ? 'checked' : '' }}>
                               </td>
                             <td>
-                                <a href="{{ route('admin.view',[$user->id]) }}" class="btn btn-block btn-success">View</a>
+                                <a href="{{ route('admin.users.view',[$user->id]) }}" class="btn btn-block btn-success">View</a>
                                 {{-- <a href="{{ route('admin.edit',[$user->id]) }}" class="btn btn-block btn-danger">Edit</a>
                                 <br> --}}
-                                <form action="{{ route('admin.destroy', $user->id)}}" method="POST">
+                                <form action="{{ route('admin.users.destroy', $user->id)}}" method="POST">
                                   @csrf
                                   @method('DELETE')
                                   <button type="submit" class="btn btn-block btn-warning" onclick="return confirm('are you sure you want to delete this Products')">Delete</button>

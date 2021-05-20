@@ -112,6 +112,8 @@ Route::group(['prefix'=>'admin'], function(){
         Route::get('users',[AdminUserController::class,'index'])->name('admin.users');
         Route::get('users/create',[AdminUserController::class,'create'])->name('admin.users.create');
         Route::post('users/create',[AdminUserController::class,'store'])->name('admin.users.store');
+        Route::get('users/view/{id}',[AdminUserController::class,'show'])->name('admin.users.view');
         Route::get('users/changeStatus',[AdminUserController::class,'userChangeStatus']);
+        Route::delete('users/destory/{id}',[AdminUserController::class,'destroy'])->name('admin.users.destroy');
     });
 });

@@ -68,7 +68,8 @@ class AdminUserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::where('id',$id)->first();
+        return view('admin.Users.view')->with('user', $user);
     }
 
     /**
@@ -102,7 +103,10 @@ class AdminUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+
+        return redirect()->route('admin.users')->with('success_message','User Delete Successfully');
     }
 
     public function userChangeStatus(Request $request)
