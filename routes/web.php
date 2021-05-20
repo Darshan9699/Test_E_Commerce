@@ -107,6 +107,6 @@ Route::group(['prefix'=>'admin'], function(){
 
         // change status
 
-        Route::get('changeStatus',[AdminProductController::class,'changeStatus']);
+        Route::get('products/changeStatus', [AdminProductController::class,'changeStatus']);
     });
 });

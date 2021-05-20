@@ -112,6 +112,7 @@
 <script src="<?php echo url('/admin'); ?>/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo url('/admin'); ?>/plugins/jquery-validation/additional-methods.min.js"></script>
 
+<script src="<?php echo url('/admin'); ?>/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 
 {{-- sumer notes --}}
 

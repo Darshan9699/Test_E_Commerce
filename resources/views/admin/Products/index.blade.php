@@ -79,27 +79,7 @@
                             <td>{{ $product->product_pirce }}</td>
                             <td>{{ $product->product_description }}</td>
                             <td>
-                              <input type="checkbox" data-id={{ $product->id }} class ="toggle-class" data-off-color="danger" data-on-color="success" data-bootstrap-switch data-toggle="toggle" data-on="Avilable" data-off="Not Avilable" {{ $product->featured ? 'checked' : '' }}>
-
-                              {{-- <div class="holder @if($product->featured == 1) status-enabled @endif">
-                                <button class="btn btn-link p-0 change" type="submit" data-id="{{ $product->id }}">
-                                    <i class="fa fa-toggle-on text-success enabled-visible"></i>
-                                    <i class="fa fa-toggle-off text-muted enabled-invisible"></i>
-                                </button>
-                            
-                                <span class="badge badge-soft-success enabled-visible">
-                                    Avilable
-                                </span>
-                            
-                                <span class="badge badge-soft-pink enabled-invisible">
-                                    Not Avilable
-                                </span>
-                            </div> --}}
-                              {{-- @if ($product->featured)
-                                  <a href="" class="btn btn-block btn-success">True</a>
-                              @else 
-                                  <a href="" class="btn btn-block btn-warning">False</a>
-                              @endif --}}
+                              <input type="checkbox" class="toggle-class" data-bootstrap-switch data-on="Avilable" data-off="Not Avilable" data-onstyle="danger" data-offstyle="success" data-id={{ $product->id }} {{ $product->featured ? 'checked' : '' }}>
                               </td>
                             <td>
                                 <a href="{{ route('admin.view',[$product->id]) }}" class="btn btn-block btn-success">View</a>
@@ -144,18 +124,22 @@
 @section('extra-js')
   <script>
   $(function() {
+      // $("input[data-bootstrap-switch]").each(function(){
+      //   $(this).bootstrapSwitch('state', $(this).prop('checked'));
+      // });
       $('.toggle-class').change(function() {
           var status = $(this).prop('checked') == true ? 1 : 0; 
           var product_id = $(this).data('id'); 
           $.ajax({
               type: "GET",
               dataType: "json",
-              url: '/changeStatus'.product_id,
-              data: {'status': status},
+              data: {'status': status,'id': product_id},
+              url: '/admin/products/changeStatus',
               success: function(data){
                 console.log(data.success)
               }
           });
+          // console.log(url)
       })
     })
   </script>

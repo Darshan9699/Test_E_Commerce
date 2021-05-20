@@ -163,6 +163,7 @@ class AdminProductController extends Controller
 
     public function changeStatus(Request $request)
     {
+            // dd('Hello worlds');
             $product = Product::find($request->id);
             $product->featured = $request->status;
             $product->save();
