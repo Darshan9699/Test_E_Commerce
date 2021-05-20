@@ -115,9 +115,13 @@ class AdminProductController extends Controller
         $product = Product::where('id',$id)->first();
         $allCategories = Category::all();
 
+        $product = Product::find($id);
+        $categoriesForProduct = $product->categories()->get();
+
         return view('admin.Products.edit')->with([
             'products' => $product,
-            'allCategories' => $allCategories
+            'allCategories' => $allCategories,
+            'categoriesForProduct' => $categoriesForProduct
         ]);
 
     }

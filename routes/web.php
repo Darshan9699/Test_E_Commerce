@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\CartController;
@@ -115,5 +116,11 @@ Route::group(['prefix'=>'admin'], function(){
         Route::get('users/view/{id}',[AdminUserController::class,'show'])->name('admin.users.view');
         Route::get('users/changeStatus',[AdminUserController::class,'userChangeStatus']);
         Route::delete('users/destory/{id}',[AdminUserController::class,'destroy'])->name('admin.users.destroy');
+
+        // Order to get to al
+        Route::get('orders',[AdminOrderController::class,'index'])->name('admin.orders');
+        Route::get('orders/changeStatus',[AdminOrderController::class,'changeShipped']);
+        Route::delete('orders/destory/{id}',[AdminOrderController::class,'destroy'])->name('admin.orders.destroy');
+
     });
 });

@@ -38,6 +38,9 @@
               <a href="{{ route('admin.users') }}" class="nav-link">
                 <p>Users</p>
               </a>
+              <a href="{{ route('admin.orders') }}" class="nav-link">
+                <p>Orders</p>
+              </a>
           </li>
         </ul>
       </nav>
