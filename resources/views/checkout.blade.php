@@ -164,11 +164,11 @@
                                             <form action="{{ route('coupon.destroy') }}" method="POST" style="display:inline">
                                                 @csrf
                                                 {{ method_field('delete') }}
-                                                <button type="submit" style="font-size:14px">Remove</button>
+                                                <button type="submit" class="site-btn" style="font-size: 15px;width: 25%;">Remove</button>
                                             </form>
                                             <span>-${{ presentPrice($discount) }}</span></li>
                                             <hr>        
-                                        <li>New Subtotal<span>{{ presentPrice($newSubtotal) }}</span></li>
+                                        <li>New Subtotal<span>${{ presentPrice($newSubtotal) }}</span></li>
                                     @endif
     
                                     <li>Tax(GST 18%) <span>${{ presentPrice($newTax) }}</span></li>

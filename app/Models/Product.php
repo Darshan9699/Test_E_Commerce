@@ -39,6 +39,14 @@ class Product extends Model
         'image'
     ];
 
+    public function setProductNameAttribute($value) {
+        $this->attributes['product_name'] = ucfirst($value);
+    }
+
+    public function getProductNameAttribute($value) {
+        return ucfirst($value);
+    }
+
     public function categories()
     {
         return $this->belongsToMany('App\Models\Category');
@@ -49,6 +57,6 @@ class Product extends Model
         return number_format($this->product_pirce, 2);
     }
 
-    
+
    
 }

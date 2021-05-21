@@ -82,7 +82,7 @@ class CheckoutController extends Controller
                 'metadata' => [
                     'contents' => $contents,
                     'quantity' => Cart::instance('default')->count(),
-                    // 'discount' => collect(session()->get('coupon'))->toJson(),
+                    'discount' => collect(session()->get('coupon'))->toJson(),
                 ],
             ]);
 
@@ -149,8 +149,8 @@ class CheckoutController extends Controller
     private function getNumbers()
     {
         $tax = config('cart.tax') / 100;
-        $discount = 0;
-        $oldtotals = str_replace( ',', '', Cart::subtotal() );
+        $discount = session()->get('coupon')['discount'] ?? 0;
+        $oldtotals = str_replace( ',', '', Cart::subtotal() ) - $discount;
         $newSubtotal = (double)$oldtotals;
         $newTax = (double)$newSubtotal * $tax;
         $newTotal = (double)$newSubtotal * (1 + $tax);
