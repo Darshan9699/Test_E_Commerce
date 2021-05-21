@@ -32,14 +32,23 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <a href="{{ route('admin.products') }}" class="nav-link">
+              <a href="{{ route('admin.products') }}" class="nav-link">
                 <p>Products</p>
+              </a>
+              <a href="{{ route('admin.categories') }}" class="nav-link">
+                <p>Categories</p>
+              </a>
+              <a href="{{ route('admin.categoriesProducts') }}" class="nav-link">
+                <p>Categories Products</p>
               </a>
               <a href="{{ route('admin.users') }}" class="nav-link">
                 <p>Users</p>
               </a>
               <a href="{{ route('admin.orders') }}" class="nav-link">
                 <p>Orders</p>
+              </a>
+              <a href="{{ route('admin.orderproduct') }}" class="nav-link">
+                <p>Orders Products</p>
               </a>
           </li>
         </ul>

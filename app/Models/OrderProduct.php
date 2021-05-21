@@ -12,4 +12,10 @@ class OrderProduct extends Model
     protected $table = 'order_product';
 
     protected $fillable = ['order_id', 'product_id', 'quantity'];
+
+    public function products()
+    {
+        return $this->belongsTo('App\Models\Product','id');
+    }
+    
 }

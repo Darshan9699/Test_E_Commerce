@@ -13,4 +13,13 @@ class Category extends Model
     {
         return $this->belongsToMany('App\Models\Product');
     }
+
+    public function setNameAttribute($value) {
+        $this->attributes['name'] = ucfirst($value);
+    }
+
+    public function getNameAttribute($value) {
+        return ucfirst($value);
+    }
+
 }

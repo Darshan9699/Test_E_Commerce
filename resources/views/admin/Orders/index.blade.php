@@ -103,7 +103,7 @@
                                 <form action="{{ route('admin.orders.destroy', $order->id)}}" method="POST">
                                   @csrf
                                   @method('DELETE')
-                                  <button type="submit" class="btn btn-block btn-warning" onclick="return confirm('are you sure you want to delete this Products')">Delete</button>
+                                  <button type="submit" class="btn btn-block btn-warning" style="margin-top: .5rem" onclick="return confirm('are you sure you want to delete this Products')">Delete</button>
                                 </form>
                             </td>
                         </tr>

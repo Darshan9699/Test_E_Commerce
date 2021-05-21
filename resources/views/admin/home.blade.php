@@ -54,10 +54,25 @@
             <a href="{{ route('admin.products') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
-        <!-- ./col -->
+
         <div class="col-lg-3 col-6">
           <!-- small box -->
           <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{{ App\Models\User::count() }}</h3>
+
+              <p>Total User</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-stalker"></i>
+            </div>
+            <a href="{{ route('admin.users') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-magnto">
             <div class="inner">
               <h3>{{ App\Models\User::where('status','1')->count() }}</h3>
 
@@ -73,14 +88,14 @@
 
         <div class="col-lg-3 col-6">
           <!-- small box -->
-          <div class="small-box bg-warning">
+          <div class="small-box bg-red">
             <div class="inner">
               <h3>{{ App\Models\User::where('status','0')->count() }}</h3>
 
               <p>InActive User Account</p>
             </div>
             <div class="icon">
-              <i class="ion ion-person-add"></i>
+              <i class="ion ion-person"></i>
             </div>
             <a href="{{ route('admin.users') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>

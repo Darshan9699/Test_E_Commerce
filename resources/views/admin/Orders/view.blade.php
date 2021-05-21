@@ -115,6 +115,20 @@
                     </div>
 
                     <hr style="margin:0;">
+
+                    <div class="panel-heading" style="border-bottom:0;">
+                        <h3 class="panel-title">Order Details Products</h3>
+                    </div>
+
+                    <div class="panel-body" style="padding-top:0;">
+                        @foreach ($order->products as $product)
+                           <strong>Name:</strong>  {{ $product->product_name }} <br>
+                           <strong>Price:</strong>   ${{ presentprice($product->product_pirce) }} <br>
+                           <strong>Quantity:</strong>  {{ $product-> pivot->quantity }} <br>
+                        @endforeach
+                    </div>
+
+                    <hr style="margin:0;">
                     <div class="panel-heading" style="border-bottom:0;">
                         <h3 class="panel-title">Orders User Email</h3>
                     </div>
@@ -186,6 +200,12 @@
                             <h6>
                     </div>
                     <hr style="margin:0;">
+
+                   
+
+                    <hr style="margin:0;">
+
+
                     <div class="panel-heading" style="border-bottom:0;">
                         <h3 class="panel-title">Order Billing name of card</h3>
                     </div>

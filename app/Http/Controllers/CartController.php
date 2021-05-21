@@ -27,15 +27,7 @@ class CartController extends Controller
         return view('cart');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -58,26 +50,7 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success_message','Product was added to your Cart');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    
 
     /**
      * Update the specified resource in storage.
@@ -141,7 +114,5 @@ class CartController extends Controller
                  ->associate('App\Models\Product');
     
          return redirect()->route('cart.index')->with('success_message','Product Has been saved For Later');
-
-
     }
 }
