@@ -120,6 +120,7 @@ Route::group(['prefix'=>'admin'], function(){
         // Order to get to al
         Route::get('orders',[AdminOrderController::class,'index'])->name('admin.orders');
         Route::get('orders/changeStatus',[AdminOrderController::class,'changeShipped']);
+        Route::get('orders/view/{id}',[AdminOrderController::class,'show'])->name('admin.orders.view');
         Route::delete('orders/destory/{id}',[AdminOrderController::class,'destroy'])->name('admin.orders.destroy');
 
     });

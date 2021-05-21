@@ -94,10 +94,10 @@
                             <td>{{ $order->payment_gateway  }}</td>
                             <td>{{ $order->error  }}</td>
                             <td>
-                                <input type="checkbox" class="toggle-class" data-bootstrap-switch data-on="Avilable" data-off="Not Avilable" data-onstyle="danger" data-offstyle="success" data-id={{ $order->id }} {{ $order->shipped ? 'checked' : '' }}>
+                                <input type="checkbox" class="toggle-class" data-on="Avilable" data-off="Not Avilable" data-onstyle="danger" data-offstyle="success" data-id={{ $order->id }} {{ $order->shipped ? 'checked' : '' }}>
                             </td>
                             <td>
-                                {{-- <a href="{{ route('admin.users.view',[$order->id]) }}" class="btn btn-block btn-success">View</a> --}}
+                                <a href="{{ route('admin.orders.view',[$order->id]) }}" class="btn btn-block btn-success">View</a>
                                 {{-- <a href="{{ route('admin.edit',[$user->id]) }}" class="btn btn-block btn-danger">Edit</a>
                                 <br> --}}
                                 <form action="{{ route('admin.orders.destroy', $order->id)}}" method="POST">
@@ -147,20 +147,23 @@
 
 @section('extra-js')
 <script>
-    $(function() {
-        $('.toggle-class').change(function() {
-            var status = $(this).prop('checked') == true ? 1 : 0; 
-            var product_id = $(this).data('id'); 
-            $.ajax({
-                type: "GET",
-                dataType: "json",
-                data: {'status': status,'id': product_id},
-                url: '/admin/orders/changeStatus',
-                success: function(data){
-                    console.log(data.success)
-                }
-            })
-        })
+    (function($) {
+      // $("input[data-bootstrap-switch]").each(function(){
+      //   $(this).bootstrapSwitch('state', $(this).prop('checked'));
+      // });
+      $('.toggle-class').change(function() {
+          var status = $(this).prop('checked') == true ? 1 : 0; 
+          var User_id = $(this).data('id'); 
+          $.ajax({
+              type: "GET",
+              dataType: "json",
+              data: {'status': status,'id': User_id},
+              url: '/admin/orders/changeStatus',
+              success: function(data){
+                console.log(data.success)
+              }
+          })
+          // console.log(url)
+      })
     })
 </script>
-@endsection

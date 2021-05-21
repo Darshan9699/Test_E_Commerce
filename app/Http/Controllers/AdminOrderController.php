@@ -48,7 +48,8 @@ class AdminOrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $orders = Order::where('id',$id)->first();
+        return view('admin.Orders.view')->with('order', $orders);
     }
 
     /**

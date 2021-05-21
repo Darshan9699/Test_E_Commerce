@@ -109,7 +109,7 @@ class AdminUserController extends Controller
         return redirect()->route('admin.users')->with('success_message','User Delete Successfully');
     }
 
-    public function orderChangeStatus(Request $request)
+    public function userChangeStatus(Request $request)
     {
         $user = User::find($request->id);
         $user->status = $request->status;
