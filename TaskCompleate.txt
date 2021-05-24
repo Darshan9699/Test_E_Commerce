@@ -1,0 +1,67 @@
+>>>>>>>>>>>>>>>>>>>>>  Test E-comerce Projects  <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Projects GitHub Links :-  https://github.com/Darshan9699/Test_E_Commerce
+compleate to  tasks
+>>>>>>>>>>Admin Side<<<<<<<<<<<<
+
+>>> Admin factory is created to add data in admin table
+Login Id:- admin@admin.com
+Password:- password
+>>>Login in only Admin 
+>>>Dashboard: Display count of total products, total orders, total users, total inactive users, total active users.
+>>> Manage Products: (CRUD: Add, Update, Delete and Listing) 
+    -Create, delete and edit Products
+    -products can select a category to add
+    -product name can unique
+    -Product status (Available and Unavailable) (By default Available) using Ajax 
+    -pagination and search (using ajax)
+    -on Delete it should open confirmation modal, on confirming only it should delete the product
+>>> Manage Categories
+    -Create, delete and edit Categories
+    -Category name can unique
+>>> Manage Categories_Products
+    -Create, delete and edit Categories_Products
+>>> Manage User 
+    -Add, listing and Delete to User
+    -user status can change is active and inactive
+>>> Manage orders
+    -listing, View, and deletes Orders
+    -change shipped status is change
+>>> Manage Order_Products
+    -listing and  view Orders products 
+
+
+>>>>>>>>>User Side <<<<<<<<<<<<<
+>>> create seeder to user date are create
+>>> create Product and coupons table seeder are create
+>>>Login (Only active user can log in to the system).
+>>> Register (On register page, display same fields as defined in Admin module)
+>>> Products List (Home and shop pages)
+    - Display the list of available products added from the admin
+    - When listing the first letter of the product should be capital (Use Laravel mutator for it)
+    - Provide search functionality on listing page (Search should happen on product id, product name, descriptions fields)
+    - On the listing page, there should be the ability to add products to the cart.
+    - Multiple products can be added into Cart, just like any e-commerce website.
+    - The user can not add the same cart to the cart again.
+    - Product with Added cart, should give the ability to remove a product from the cart.
+    - category vise filter to products
+
+>>> Cart Page 
+    - Display the list of products into a tabular form that is added to the cart
+    - Display total price by summation of all the products
+    - Display checkout button, on clicking of checkout order should get placed and items should get removed from the Cart.
+    - checkout page and payment is a success
+    - payment success to get mail to place Orders
+
+>>> checkout page
+    - total Products purchasing
+    - form to address place orders
+    - add to coupons 
+    - remove coupons
+    - change total and subtotal to add and remove to coupons
+    - after complete, the payment process show the thanks page 
+    - create to save for Later (try)
+    
+
+>>> User
+    - login and register to users
