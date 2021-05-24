@@ -84,18 +84,19 @@ class AdminProductController extends Controller
             $product->featured = $request->has('featured');
             $product->save();
 
-            $insertId = $product->id;
-    
-            //  //enter to category
-            // if($request->category) {
-            //     foreach($request->category as $category){
-            //         $id = $insertId;
-            //         CategoryProduct::create([
-            //             'product_id' => $id,
-            //             'category_id'=> $category
-            //         ]);
-            //     }
-            // }
+            $data = Product::latest('id')->first();
+            $insertId = $data->id;
+            
+             //enter to category
+            if($request->category) {
+                foreach($request->category as $category){
+                    $id = $insertId;
+                    CategoryProduct::create([
+                        'product_id' => $id,
+                        'category_id'=> $category
+                    ]);
+                }
+            }
     
             // $imageName = time().'.'.$request->image->extension();  
             // $request->image->move(public_path('images'), $imageName);
