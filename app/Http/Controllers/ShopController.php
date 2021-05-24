@@ -31,9 +31,9 @@ class ShopController extends Controller
         }
 
         if (request()->sort == 'low_high') {
-            $products = $products->orderBy('price')->paginate(9);
+            $products = $products->orderBy('product_pirce')->paginate(9);
         } elseif (request()->sort == 'high_low') {
-            $products = $products->orderBy('price', 'desc')->paginate(9);
+            $products = $products->orderBy('product_pirce', 'desc')->paginate(9);
         } else {
             $products = $products->paginate($paginate);
         }
