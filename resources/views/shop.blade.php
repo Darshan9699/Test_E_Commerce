@@ -75,36 +75,37 @@
                 </div>
                 <div class="col-lg-9 col-md-9">
                     <div class="row">
-                        @foreach ($products  as $product)
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{ asset('/images/'.$product->image) }}">
-                                    <div class="label new">New</div>
-                                    <ul class="product__hover">
-                                        <li><a href="{{ asset('/images/'.$product->image) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                        <li>
-                                            <form action="{{ route('cart.store') }}" method="POST" >
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{ $product->id }}">
-                                                <input type="hidden" name="name" value="{{ $product->product_name }}">
-                                                <input type="hidden" name="price" value="{{ $product->presentPrice() }}">
-                                                <button type="submit" style="border-radius: 50px ;height: 50px ;width: 50px ;font-size: 18px;color: #111111;display: inline-block;background: #ffffff;line-height: 48px;text-align: center;transition: all, 0.5s;"><span class="icon_bag_alt"></span></button>
-                                            </form>
-                                        </li>                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6><a href="{{ route('shop.show', $product->slug) }}">{{ $product->product_name }}</a></h6>
-                                    <div class="product__price">$ {{ $product->presentPrice() }}</div>
+                        @forelse ($products  as $product)
+                            <div class="col-lg-4 col-md-6">
+                                <div class="product__item">
+                                    <div class="product__item__pic set-bg" data-setbg="{{ asset('/images/'.$product->image) }}">
+                                        <div class="label new">New</div>
+                                        <ul class="product__hover">
+                                            <li><a href="{{ asset('/images/'.$product->image) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                            <li>
+                                                <form action="{{ route('cart.store') }}" method="POST" >
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $product->id }}">
+                                                    <input type="hidden" name="name" value="{{ $product->product_name }}">
+                                                    <input type="hidden" name="price" value="{{ $product->presentPrice() }}">
+                                                    <button type="submit" style="border-radius: 50px ;height: 50px ;width: 50px ;font-size: 18px;color: #111111;display: inline-block;background: #ffffff;line-height: 48px;text-align: center;transition: all, 0.5s;"><span class="icon_bag_alt"></span></button>
+                                                </form>
+                                            </li>                                    </ul>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <h6><a href="{{ route('shop.show', $product->slug) }}">{{ $product->product_name }}</a></h6>
+                                        <div class="product__price">$ {{ $product->presentPrice() }}</div>
+                                    </div>
                                 </div>
                             </div>
+                        @empty
+                                    <div style="text-align: left">No Products founds</div>
+                        @endforelse 
+                       
+                        <div class="col-lg-12 text-center"> 
+                            {{--{{ $products->links() }}--}}    
+                            {{ $products->appends(request()->input())->links() }}
                         </div>
-                        @endforeach
-
-                        
-                            <div class="col-lg-12 text-center"> 
-                                {{--{{ $products->links() }}--}}    
-                                {{ $products->appends(request()->input())->links() }}
-                            </div>
                     </div>
                 </div>
             </div>
