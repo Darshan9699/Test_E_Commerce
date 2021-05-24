@@ -8,11 +8,14 @@
                 <div class="card-header">{{ __('Admin Login') }}</div>
 
                 <div class="card-body">
-                    @if(session()->has('status'))
-                        <div class="alert alert-success">
-                            {{ session('status')->get }}
+                    @if(session()->has('success_message'))
+                        <div>
+                            <div class="alert alert-danger">
+                                {{ session()->get('success_message') }}
+                            </div>
                         </div>
-                    @endif  
+                    @endif
+
 
                     <form method="POST" action="{{ route('admin.auth') }}">
                         @csrf

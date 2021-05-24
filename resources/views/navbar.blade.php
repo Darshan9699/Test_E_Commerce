@@ -58,7 +58,7 @@
                                 <a href="{{ route('cart.index') }}">
                                     <span class="icon_bag_alt"></span>
                                     @if (Cart::instance('default')->count() > 0 )
-                                    <div class="tip">{{ Cart::instance('default')->count() }}</div>
+                                        <div class="tip">{{ Cart::instance('default')->count() }}</div>
                                     @endif
                                 </a>
                             </li>
@@ -87,7 +87,7 @@
                                 <a href="{{ route('cart.index') }}">
                                     <span class="icon_bag_alt"></span>
                                     @if (Cart::instance('default')->count() > 0 )
-                                    <div class="tip">{{ Cart::instance('default')->count() }}</div>
+                                        <div class="tip">{{ Cart::instance('default')->count() }}</div>
                                     @endif
                                 </a>
                             </li>

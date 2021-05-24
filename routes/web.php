@@ -38,7 +38,6 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 //Home Page
 Route::get('/',[HomeController::class,'index'])->name('index');//index page controller
 
-
 //Shop and product-details page
 //shop page
 Route::get('/shop',[ShopController::class,'index'])->name('shop.index');

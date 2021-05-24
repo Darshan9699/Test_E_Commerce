@@ -16,8 +16,9 @@ class AdminController extends Controller
             $user = Admin::where('email', $request->email)->first();
             Auth::guard('admin')->login($user);
             return redirect()->route('admin.home');
+        } else {
+            return redirect()->back('success_message','admin login is failed please try again');
         }
-        return redirect()->route('admin.login')->with('status','Failed To Process Login');
     }
 
     public function logout()
