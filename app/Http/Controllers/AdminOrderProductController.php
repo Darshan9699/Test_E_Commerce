@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminOrderProductController extends Controller
 {
@@ -14,8 +15,15 @@ class AdminOrderProductController extends Controller
      */
     public function index()
     {
-        $orderProducts = OrderProduct::all();
-        return view('admin.Orders_Products.index')->with('orderProducts',$orderProducts);
+        //check only admin is access 
+        if(Auth::guard('admin'))
+        {
+            $orderProducts = OrderProduct::all();
+            return view('admin.Orders_Products.index')->with('orderProducts',$orderProducts);
+        } else {
+            // dd('this is not admin');
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
    
     /**
@@ -26,8 +34,14 @@ class AdminOrderProductController extends Controller
      */
     public function show($id)
     {
-        $orderProducts = OrderProduct::where('id',$id)->first();
-        return view('admin.Orders_Products.view')->with('orderProduct', $orderProducts);
+        if(Auth::guard('admin'))
+        {
+            $orderProducts = OrderProduct::where('id',$id)->first();
+            return view('admin.Orders_Products.view')->with('orderProduct', $orderProducts);
+        } else {
+             // dd('this is not admin');
+             return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
 }

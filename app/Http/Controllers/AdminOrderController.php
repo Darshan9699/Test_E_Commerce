@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminOrderController extends Controller
 {
@@ -14,9 +15,12 @@ class AdminOrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
-
-        return view('admin.Orders.index')->with('orders',$orders);
+        if(Auth::guard('admin')){
+            $orders = Order::all();//show all orders
+            return view('admin.Orders.index')->with('orders',$orders);
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
    
@@ -29,8 +33,12 @@ class AdminOrderController extends Controller
      */
     public function show($id)
     {
-        $orders = Order::where('id',$id)->first();
-        return view('admin.Orders.view')->with('order', $orders);
+        if(Auth::guard('admin')){
+            $orders = Order::where('id',$id)->first();
+            return view('admin.Orders.view')->with('order', $orders); 
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
     

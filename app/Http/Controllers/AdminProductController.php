@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\CategoryProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminProductController extends Controller
 {
@@ -17,9 +18,12 @@ class AdminProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-
-        return view('admin.Products.index')->with('Products', $products);
+        if(Auth::guard('admin')){  
+            $products = Product::all();//show products
+            return view('admin.Products.index')->with('Products', $products);
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
     /**
@@ -29,8 +33,12 @@ class AdminProductController extends Controller
      */
     public function create()
     {
-        $allCategories = Category::all();
-        return view('admin.Products.add')->with('allCategories',$allCategories);
+        if(Auth::guard('admin')){
+            $allCategories = Category::all();
+            return view('admin.Products.add')->with('allCategories',$allCategories);
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
     /**
@@ -42,53 +50,61 @@ class AdminProductController extends Controller
     public function store(Request $request)
     {
         //  dd($request->featured);
-        $request->validate([
-            'product_name' => 'required|unique:products,product_name',
-            'slug'=> 'required|unique:products,slug',
-            'details' => 'required',
-            'product_price' => 'required',
-            'product_description' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
 
-        if ($request->hasFile('image')) {
-            $filenameWithExt = $request->file('image')->getClientOriginalName ();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $fileNameToStore = $filename. '_'. time().'.'.$extension;
-            $request->image->move(public_path('images'), $fileNameToStore);
-        } 
+        if(Auth::guard('admin')){
+            $request->validate([
+                'product_name' => 'required|unique:products,product_name',
+                'slug'=> 'required|unique:products,slug',
+                'details' => 'required',
+                'product_price' => 'required',
+                'product_description' => 'required',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+    
+            if ($request->hasFile('image')) {
+                $filenameWithExt = $request->file('image')->getClientOriginalName ();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('image')->getClientOriginalExtension();
+                $fileNameToStore = $filename. '_'. time().'.'.$extension;
+                $request->image->move(public_path('images'), $fileNameToStore);
+            } 
+    
+            $product = new Product();
+            $product->product_name = $request->product_name;
+            $product->slug = $request->slug;
+            $product->details = $request->details;
+            $product->product_pirce = $request->product_price;
+            $product->product_description = $request->product_description;
+            $product->image = $fileNameToStore;
+            // if($request->featured == "on"){
+            //     $var = true;
+            // } else {
+            //     $var = false;
+            // }
+            $product->featured = $request->has('featured');
+            $product->save();
 
-        $product = new Product();
-        $product->product_name = $request->product_name;
-        $product->slug = $request->slug;
-        $product->details = $request->details;
-        $product->product_pirce = $request->product_price;
-        $product->product_description = $request->product_description;
-        $product->image = $fileNameToStore;
-        // if($request->featured == "on"){
-        //     $var = true;
-        // } else {
-        //     $var = false;
-        // }
-        $product->featured = $request->has('featured');
-        $product->save();
+            $insertId = $product->id;
+    
+            //  //enter to category
+            // if($request->category) {
+            //     foreach($request->category as $category){
+            //         $id = $insertId;
+            //         CategoryProduct::create([
+            //             'product_id' => $id,
+            //             'category_id'=> $category
+            //         ]);
+            //     }
+            // }
+    
+            // $imageName = time().'.'.$request->image->extension();  
+            // $request->image->move(public_path('images'), $imageName);
+    
+            return redirect()->route('admin.products')->with('success_message','your Product is create succesfully');
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
 
-        //  //enter to category
-        // if($request->category) {
-        //     foreach($request->category as $category){
-        //         $id = $product->id;
-        //         CategoryProduct::create([
-        //             'product_id' => $id,
-        //             'category_id'=> $category
-        //         ]);
-        //     }
-        // }
-
-        // $imageName = time().'.'.$request->image->extension();  
-        // $request->image->move(public_path('images'), $imageName);
-
-        return redirect()->route('admin.products')->with('success_message','your Product is create succesfully');
 
     }
 
@@ -100,8 +116,12 @@ class AdminProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::where('id',$id)->get();
-        return view('admin.Products.productview')->with('product', $product);
+        if(Auth::guard('admin')){
+            $product = Product::where('id',$id)->get();
+            return view('admin.Products.productview')->with('product', $product);
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
     /**
@@ -112,17 +132,21 @@ class AdminProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::where('id',$id)->first();
-        $allCategories = Category::all();
-
-        $product = Product::find($id);
-        $categoriesForProduct = $product->categories()->get();
-
-        return view('admin.Products.edit')->with([
-            'products' => $product,
-            'allCategories' => $allCategories,
-            'categoriesForProduct' => $categoriesForProduct
-        ]);
+        if(Auth::guard('admin')){ 
+            $product = Product::where('id',$id)->first();
+            $allCategories = Category::all();
+    
+            $product = Product::find($id);
+            $categoriesForProduct = $product->categories()->get();
+    
+            return view('admin.Products.edit')->with([
+                'products' => $product,
+                'allCategories' => $allCategories,
+                'categoriesForProduct' => $categoriesForProduct
+            ]);
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
 
     }
 
@@ -135,50 +159,54 @@ class AdminProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'product_name' => 'required',
-            'slug'=> 'required',
-            'details' => 'required',
-            'product_price' => 'required',
-            'product_description' => 'required',
-            'featured' => 'nullable|boolean',
-        ]);
-
-            if ($request->hasFile('image')) {
-                $filenameWithExt = $request->file('image')->getClientOriginalName ();
-                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                $extension = $request->file('image')->getClientOriginalExtension();
-                $fileNameToStore = $filename. '_'. time().'.'.$extension;
-                $request->image->move(public_path('images'), $fileNameToStore);
-            } 
-            
-        $product = Product::find($id);
-        $product->product_name = $request->product_name;
-        $product->slug = $request->slug;
-        $product->details = $request->details;
-        $product->product_pirce = $request->product_price;
-        $product->product_description = $request->product_description;
-        if($request->hasFile('image')){
-            $product->image = $fileNameToStore;
-        } else {
-            $product->image = $product->image;
-        }
-        $product->featured = $request->has('featured');
-        $product->save();
-
-        //try to store Category Products
-
-        CategoryProduct::where('product_id',$id)->delete();
-
-        if($request->category) {
-            foreach($request->category as $category){
-                CategoryProduct::create([
-                    'product_id' => $id,
-                    'category_id'=> $category
-                ]);
+        if(Auth::guard('admin')){
+            $request->validate([
+                'product_name' => 'required',
+                'slug'=> 'required',
+                'details' => 'required',
+                'product_price' => 'required',
+                'product_description' => 'required',
+                'featured' => 'nullable|boolean',
+            ]);
+    
+                if ($request->hasFile('image')) {
+                    $filenameWithExt = $request->file('image')->getClientOriginalName ();
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    $extension = $request->file('image')->getClientOriginalExtension();
+                    $fileNameToStore = $filename. '_'. time().'.'.$extension;
+                    $request->image->move(public_path('images'), $fileNameToStore);
+                } 
+                
+            $product = Product::find($id);
+            $product->product_name = $request->product_name;
+            $product->slug = $request->slug;
+            $product->details = $request->details;
+            $product->product_pirce = $request->product_price;
+            $product->product_description = $request->product_description;
+            if($request->hasFile('image')){
+                $product->image = $fileNameToStore;
+            } else {
+                $product->image = $product->image;
             }
+            $product->featured = $request->has('featured');
+            $product->save();
+    
+            //try to store Category Products
+    
+            CategoryProduct::where('product_id',$id)->delete();
+    
+            if($request->category) {
+                foreach($request->category as $category){
+                    CategoryProduct::create([
+                        'product_id' => $id,
+                        'category_id'=> $category
+                    ]);
+                }
+            }
+            return redirect()->route('admin.products')->with('success_message','your Product is Update succesfully');
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
         }
-        return redirect()->route('admin.products')->with('success_message','your Product is Update succesfully');
     }
 
     /**
@@ -189,9 +217,13 @@ class AdminProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::find($id);
-        $product->delete();
-        return redirect()->route('admin.products')->with('success_message','Your Product is Delete Successfully');
+        if(Auth::guard('admin')){
+            $product = Product::find($id);
+            $product->delete();
+            return redirect()->route('admin.products')->with('success_message','Your Product is Delete Successfully');
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
     public function changeStatus(Request $request)

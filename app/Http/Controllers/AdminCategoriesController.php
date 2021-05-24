@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminCategoriesController extends Controller
 {
@@ -14,8 +15,12 @@ class AdminCategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('admin.Categories.index')->with('categories',$categories);
+        if(Auth::guard('admin')){
+            $categories = Category::all();
+            return view('admin.Categories.index')->with('categories',$categories);
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
     /**
@@ -25,7 +30,11 @@ class AdminCategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.Categories.add');
+        if(Auth::guard('admin')){
+            return view('admin.Categories.add');
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
     /**
@@ -37,17 +46,21 @@ class AdminCategoriesController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            'name' => 'required|unique:categories,name',
-            'slug'=> 'required|unique:categories,slug',
-        ]);
-
-        $categories = new Category();
-        $categories->name = $request->name;
-        $categories->slug = $request->slug;
-        $categories->save();
-
-        return redirect()->route('admin.categories')->with('success_message','your Category is create succesfully');
+        if(Auth::guard('admin')){
+            $request->validate([
+                'name' => 'required|unique:categories,name',
+                'slug'=> 'required|unique:categories,slug',
+            ]);
+    
+            $categories = new Category();
+            $categories->name = $request->name;
+            $categories->slug = $request->slug;
+            $categories->save();
+    
+            return redirect()->route('admin.categories')->with('success_message','your Category is create succesfully');
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
 
     }
 
@@ -59,8 +72,12 @@ class AdminCategoriesController extends Controller
      */
     public function show($id)
     {
-        $categories = Category::where('id',$id)->first();
-        return view('admin.Categories.view')->with('categories', $categories);
+        if(Auth::guard('admin')){     
+            $categories = Category::where('id',$id)->first();
+            return view('admin.Categories.view')->with('categories', $categories);
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
     /**
@@ -71,8 +88,12 @@ class AdminCategoriesController extends Controller
      */
     public function edit($id)
     {
-        $categories = Category::find($id);
-        return view('admin.Categories.edit')->with('categories', $categories);
+        if(Auth::guard('admin')){ 
+            $categories = Category::find($id);
+            return view('admin.Categories.edit')->with('categories', $categories);
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
     }
 
     /**
@@ -84,17 +105,21 @@ class AdminCategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|unique:categories,name',
-            'slug'=> 'required|unique:categories,slug',
-        ]);
-
-        $categories = Category::find($id);
-        $categories->name = $request->name;
-        $categories->slug = $request->slug;
-        $categories->save();
-
-        return redirect()->route('admin.categories')->with('success_message','your Category is Update succesfully');
+        if(Auth::guard('admin')){ 
+            $request->validate([
+                'name' => 'required|unique:categories,name',
+                'slug'=> 'required|unique:categories,slug',
+            ]);
+    
+            $categories = Category::find($id);
+            $categories->name = $request->name;
+            $categories->slug = $request->slug;
+            $categories->save();
+    
+            return redirect()->route('admin.categories')->with('success_message','your Category is Update succesfully');
+        } else {
+            return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
+        }
 
     }
 
