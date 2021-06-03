@@ -37,9 +37,8 @@ class AdminProductController extends Controller
         $Products = Product::with('categories')->whereHas('categories', function ($query) use ($name) {
             $query->where('slug', $name );
         })->get();
-//        $returnHtml = view('admin.Products.filter')->with('Products',$products)->render();
-//        return response()->json($returnHtml);
-        return response()->view('admin.Products.filter',compact('Products'));
+
+       return response()->view('admin.Products.filter',compact('Products'));
     }
 
     /**

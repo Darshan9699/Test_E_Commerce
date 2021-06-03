@@ -37,7 +37,7 @@
                                                 <ul>
                                                     @foreach ($categories as $category)
                                                     <li class="{{ request()->category == $category->slug ? 'active':'' }}"><a href="{{ route('shop.index', ['category' => $category->slug]) }}"><b style="color: black;text-transform:capitalize;">{{ $category->name }}</b></a></li>
-                                                    @endforeach                       
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                         </div>
@@ -79,7 +79,6 @@
                             <div class="col-lg-4 col-md-6">
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg" data-setbg="{{ asset('/images/'.$product->image) }}">
-                                        <div class="label new">New</div>
                                         <ul class="product__hover">
                                             <li><a href="{{ asset('/images/'.$product->image) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
                                             <li>
@@ -100,12 +99,11 @@
                             </div>
                         @empty
                                     <div style="text-align: left">No Products founds</div>
-                        @endforelse 
-                       
-                        <div class="col-lg-12 text-center"> 
-                            {{--{{ $products->links() }}--}}    
-                            {{ $products->appends(request()->input())->links() }}
-                        </div>
+                        @endforelse
+
+                            <div class="col-lg-12 text-center">
+                                    {{ $products->appends(request()->input())->links('vendor.pagination.bootstrap-4') }}
+                            </div>
                     </div>
                 </div>
             </div>
@@ -113,5 +111,5 @@
     </section>
     <!-- Shop Section End -->
 
-    
+
 @endsection
