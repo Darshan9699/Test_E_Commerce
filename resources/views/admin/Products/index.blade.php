@@ -67,7 +67,7 @@
                       </form>
                   </div>
                 <!-- /.card-header -->
-                <div class="card-body">
+                <div class="card-body" id="body">
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -165,8 +165,8 @@
                     type:'get',
                     dataType:'html',
                     success: function (data){
-                        $("#example1").empty();
-                        $("#example1").append(data);
+                        $("#body").empty();
+                        $("#body").append(data);
                         console.log(data);
                     }
                 })

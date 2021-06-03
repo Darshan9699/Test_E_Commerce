@@ -50,3 +50,25 @@
     </tfoot>
 </table>
 
+
+<script>
+        $(function() {
+            // $("input[data-bootstrap-switch]").each(function(){
+            //   $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            // });
+            $('.toggle-class').change(function() {
+                var status = $(this).prop('checked') == true ? 1 : 0;
+                var product_id = $(this).data('id');
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    data: {'status': status,'id': product_id},
+                    url: '/admin/products/changeStatus',
+                    success: function(data){
+                        console.log(data.success)
+                    }
+                });
+                // console.log(url)
+            })
+        })
+</script>
