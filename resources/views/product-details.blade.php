@@ -36,9 +36,9 @@
                         <div class="product__details__price">$ {{ $product->presentPrice() }} <span>$ 83.0</span></div>
                         <p>{{ $product->details }}</p>
                         <div class="product__details__button">
-                            
+
                             {{-- <a href="{{  }}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a> --}}
-                            
+
 
                             {{-- add to cart request found --}}
 
@@ -50,26 +50,10 @@
 
                                 <button type="submit" class="cart-btn">Add to Cart</button>
                             </form>
-                            
-                            <ul>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                            </ul>
+
+
                         </div>
-                        <div class="product__details__widget">
-                            <ul>
-                                <li>
-                                    <span>Availability:</span>
-                                    <div class="stock__checkbox">
-                                        <label for="stockin">
-                                            In Stock
-                                            <input type="checkbox" id="stockin">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -130,11 +114,17 @@
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="{{ asset('/images/'.$product->image) }}">
-                            <div class="label new">New</div>
                             <ul class="product__hover">
                                 <li><a href="{{ asset('/images/'.$product->image) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                <li>
+                                    <form action="{{ route('cart.store') }}" method="POST" >
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $product->id }}">
+                                        <input type="hidden" name="name" value="{{ $product->product_name }}">
+                                        <input type="hidden" name="price" value="{{ $product->presentPrice() }}">
+                                        <button type="submit" style="border-radius: 50px ;height: 50px ;width: 50px ;font-size: 18px;color: #111111;display: inline-block;background: #ffffff;line-height: 48px;text-align: center;transition: all, 0.5s;"><span class="icon_bag_alt"></span></button>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                         <div class="product__item__text">
