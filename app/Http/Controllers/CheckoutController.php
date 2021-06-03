@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderConfirmation;
 use App\Http\Requests\CheckoutRequest;
 use App\Mail\OrderPlaced;
 use App\Models\Order;
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Expr\Cast\Double;
-
+use Event;
 class CheckoutController extends Controller
 {
 
@@ -43,12 +44,12 @@ class CheckoutController extends Controller
                 'newSubtotal' => $this->getNumbers()->get('newSubtotal'),
                 'newTax' => $this->getNumbers()->get('newTax'),
                 'newTotal' => $this->getNumbers()->get('newTotal'),
-            ]); 
-    
+            ]);
+
 
     }
 
-  
+
 
     /**
      * Store a newly created resource in storage.
@@ -65,18 +66,18 @@ class CheckoutController extends Controller
 
 
         try {
-            $charge = Stripe::charges()->create([
-                'amount' => $this->getNumbers()->get('newTotal'),
-                'currency' => 'INR',
-                'source' => $request->stripeToken,
-                'description' => 'Order',
-                'receipt_email' => $request->email,
-                'metadata' => [
-                    'contents' => $contents,
-                    'quantity' => Cart::instance('default')->count(),
-                    'discount' => collect(session()->get('coupon'))->toJson(),
-                ],
-            ]);
+//            $charge = Stripe::charges()->create([
+//                'amount' => $this->getNumbers()->get('newTotal'),
+//                'currency' => 'INR',
+//                'source' => $request->stripeToken,
+//                'description' => 'Order',
+//                'receipt_email' => $request->email,
+//                'metadata' => [
+//                    'contents' => $contents,
+//                    'quantity' => Cart::instance('default')->count(),
+//                    'discount' => collect(session()->get('coupon'))->toJson(),
+//                ],
+//            ]);
 
                     //Insert into orders table
                 $order = Order::create([
@@ -97,7 +98,7 @@ class CheckoutController extends Controller
                     'error' => null,
                 ]);
 
-                //insert into product_order tabel 
+                //insert into product_order tabel
 
                 foreach (Cart::content() as $item) {
                     OrderProduct::create([
@@ -115,7 +116,8 @@ class CheckoutController extends Controller
 
             Mail::send(new OrderPlaced($order));
 
-            //success 
+            Event::dispatch(new OrderConfirmation($order));
+            //success
             Cart::instance('default')->destroy();
 
             // return back()->with('success_message', 'Thank You For Your Payments Has Been success');
@@ -137,7 +139,7 @@ class CheckoutController extends Controller
     {
         return $request->all();
     }
-   
+
     private function getNumbers()
     {
         $tax = config('cart.tax') / 100;
