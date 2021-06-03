@@ -44,7 +44,7 @@ Route::get('/shop',[ShopController::class,'index'])->name('shop.index');
 //productdetails page
 Route::get('/shop/{product}',[ShopController::class,'show'])->name('shop.show');
 
-//cart Page 
+//cart Page
 
 //main cart page
 Route::get('/cart',[CartController::class,'index'])->name('cart.index');
@@ -60,8 +60,8 @@ Route::post('/cart/switchToSaveForLater/{product}',[CartController::class,'switc
 //Save For Later
 //cart remove from save for Later
 Route::delete('/saveForLater/{product}',[SaveForLaterController::class,'destroy'])->name('saveForLater.destroy');
-// Add to Cart page 
-Route::post('/saveForLater/switchToSaveForLater/{product}',[SaveForLaterController::class,'switchToCart'])->name('saveForLater.switchToCart'); 
+// Add to Cart page
+Route::post('/saveForLater/switchToSaveForLater/{product}',[SaveForLaterController::class,'switchToCart'])->name('saveForLater.switchToCart');
 
 //view checkout page
 Route::get('/checkout',[CheckoutController::class,'index'])->name('checkout.index')->middleware('auth');
@@ -86,7 +86,7 @@ Route::get('empty', function(){
 //remove  from cart
 Route::delete('/cart/{product}',[CartController::class,'destroy'])->name('cart.destroy'); //remove the cart
 
-//if your order is complete to your 
+//if your order is complete to your
 Route::get('/thankyou', [ConfirmationController::class,'index'])->name('confirmation.index');
 Auth::routes();
 
@@ -109,7 +109,7 @@ Route::group(['prefix'=>'admin'], function(){
         Route::post('login',[AdminController::class,'login'])->name('admin.auth');// authinicate to user
     });
     Route::group(['middleware' => 'admin.auth'], function(){
-        //admin dashborad 
+        //admin dashborad
         Route::view('dashbord','admin.home')->name('admin.home');
         //admin logout
         Route::post('logout', [AdminController::class,'logout'])->name('admin.logout');
@@ -118,6 +118,7 @@ Route::group(['prefix'=>'admin'], function(){
 
         //View Products
         Route::get('products',[AdminProductController::class,'index'])->name('admin.products');
+        Route::get('products/filter/{id}',[AdminProductController::class,'filterProduct'])->name('admin.products.filter');
         Route::get('view/{id}',[AdminProductController::class,'show'])->name('admin.view');
         // Create Products
         Route::get('product/create',[AdminProductController::class,'create'])->name('admin.create');
@@ -131,12 +132,12 @@ Route::group(['prefix'=>'admin'], function(){
         //Products change status
         Route::get('products/changeStatus', [AdminProductController::class,'changeStatus']);
 
-        // show all users 
+        // show all users
         Route::get('users',[AdminUserController::class,'index'])->name('admin.users');
         //user is create
         Route::get('users/create',[AdminUserController::class,'create'])->name('admin.users.create');
         Route::post('users/create',[AdminUserController::class,'store'])->name('admin.users.store');
-        //singleuser is view 
+        //singleuser is view
         Route::get('users/view/{id}',[AdminUserController::class,'show'])->name('admin.users.view');
         //change status active and inactive
         Route::get('users/changeStatus',[AdminUserController::class,'userChangeStatus']);
@@ -144,11 +145,11 @@ Route::group(['prefix'=>'admin'], function(){
         Route::delete('users/destory/{id}',[AdminUserController::class,'destroy'])->name('admin.users.destroy');
 
         // Order to get to al
-        //show all orders 
+        //show all orders
         Route::get('orders',[AdminOrderController::class,'index'])->name('admin.orders');
         // change shipped status are changes
         Route::get('orders/changeStatus',[AdminOrderController::class,'changeShipped']);
-        // single order view 
+        // single order view
         Route::get('orders/view/{id}',[AdminOrderController::class,'show'])->name('admin.orders.view');
         //delete to orders
         Route::delete('orders/destory/{id}',[AdminOrderController::class,'destroy'])->name('admin.orders.destroy');
@@ -156,7 +157,7 @@ Route::group(['prefix'=>'admin'], function(){
         //Show All information to Order Products
         Route::get('orderProducts',[AdminOrderProductController::class,'index'])->name('admin.orderproduct'); // all show all product id
         //view Order Products details
-        Route::get('orderProducts/view/{id}',[AdminOrderProductController::class,'show'])->name('admin.orderproduct.view'); // 
+        Route::get('orderProducts/view/{id}',[AdminOrderProductController::class,'show'])->name('admin.orderproduct.view'); //
 
         // all to get Categories
         Route::get('categories',[AdminCategoriesController::class,'index'])->name('admin.categories');

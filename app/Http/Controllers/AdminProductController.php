@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminProductController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -18,12 +18,28 @@ class AdminProductController extends Controller
      */
     public function index()
     {
-        if(Auth::guard('admin')){  
+        if(Auth::guard('admin')){
             $products = Product::all();//show products
-            return view('admin.Products.index')->with('Products', $products);
+            $category = Category::all();//show category
+            return view('admin.Products.index')->with([
+                'Products' => $products,
+                'Category' => $category
+            ]);
         } else {
             return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
         }
+    }
+
+    public function filterProduct(Request $request)
+    {
+        $category = Category::find($request->id);
+        $name = $category->name;
+        $Products = Product::with('categories')->whereHas('categories', function ($query) use ($name) {
+            $query->where('slug', $name );
+        })->get();
+//        $returnHtml = view('admin.Products.filter')->with('Products',$products)->render();
+//        return response()->json($returnHtml);
+        return response()->view('admin.Products.filter',compact('Products'));
     }
 
     /**
@@ -60,15 +76,15 @@ class AdminProductController extends Controller
                 'product_description' => 'required',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-    
+
             if ($request->hasFile('image')) {
                 $filenameWithExt = $request->file('image')->getClientOriginalName ();
                 $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                 $extension = $request->file('image')->getClientOriginalExtension();
                 $fileNameToStore = $filename. '_'. time().'.'.$extension;
                 $request->image->move(public_path('images'), $fileNameToStore);
-            } 
-    
+            }
+
             $product = new Product();
             $product->product_name = $request->product_name;
             $product->slug = $request->slug;
@@ -86,7 +102,7 @@ class AdminProductController extends Controller
 
             $data = Product::latest('id')->first();
             $insertId = $data->id;
-            
+
              //enter to category
             if($request->category) {
                 foreach($request->category as $category){
@@ -97,10 +113,10 @@ class AdminProductController extends Controller
                     ]);
                 }
             }
-    
-            // $imageName = time().'.'.$request->image->extension();  
+
+            // $imageName = time().'.'.$request->image->extension();
             // $request->image->move(public_path('images'), $imageName);
-    
+
             return redirect()->route('admin.products')->with('success_message','your Product is create succesfully');
         } else {
             return redirect()->route('admin.login')->with('status','Logout Sucessfuy');//back to login pages and control
@@ -133,13 +149,13 @@ class AdminProductController extends Controller
      */
     public function edit($id)
     {
-        if(Auth::guard('admin')){ 
+        if(Auth::guard('admin')){
             $product = Product::where('id',$id)->first();
             $allCategories = Category::all();
-    
+
             $product = Product::find($id);
             $categoriesForProduct = $product->categories()->get();
-    
+
             return view('admin.Products.edit')->with([
                 'products' => $product,
                 'allCategories' => $allCategories,
@@ -169,15 +185,15 @@ class AdminProductController extends Controller
                 'product_description' => 'required',
                 'featured' => 'nullable|boolean',
             ]);
-    
+
                 if ($request->hasFile('image')) {
                     $filenameWithExt = $request->file('image')->getClientOriginalName ();
                     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                     $extension = $request->file('image')->getClientOriginalExtension();
                     $fileNameToStore = $filename. '_'. time().'.'.$extension;
                     $request->image->move(public_path('images'), $fileNameToStore);
-                } 
-                
+                }
+
             $product = Product::find($id);
             $product->product_name = $request->product_name;
             $product->slug = $request->slug;
@@ -191,11 +207,11 @@ class AdminProductController extends Controller
             }
             $product->featured = $request->has('featured');
             $product->save();
-    
+
             //try to store Category Products
-    
+
             CategoryProduct::where('product_id',$id)->delete();
-    
+
             if($request->category) {
                 foreach($request->category as $category){
                     CategoryProduct::create([

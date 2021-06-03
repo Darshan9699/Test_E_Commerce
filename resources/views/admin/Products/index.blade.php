@@ -17,7 +17,7 @@
         display: none;
     }
 </style>
-    
+
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
           <div class="col-sm-2">
                 <a href="{{ route('admin.create') }}" class="btn btn-block btn-success">Add To Products</a>
           </div>
-          
+
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -54,6 +54,18 @@
                 <div class="card-header">
                   <h3 class="card-title">Show All Products</h3>
                 </div>
+                  <br/>
+                  <div>
+                      <form id="filterform" method="GET">
+                            <label>Select Category Filter</label>
+                            <select class="col-md-2 form-control mr-2" name="selectCategory" id="input" >
+                                <option value="0">select the Category</option>
+                                @foreach($Category as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                      </form>
+                  </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                   <table id="example1" class="table table-bordered table-striped">
@@ -128,8 +140,8 @@
       //   $(this).bootstrapSwitch('state', $(this).prop('checked'));
       // });
       $('.toggle-class').change(function() {
-          var status = $(this).prop('checked') == true ? 1 : 0; 
-          var product_id = $(this).data('id'); 
+          var status = $(this).prop('checked') == true ? 1 : 0;
+          var product_id = $(this).data('id');
           $.ajax({
               type: "GET",
               dataType: "json",
@@ -143,4 +155,22 @@
       })
     })
   </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#input").change(function () {
+                var inputId = $(this).val();
+                $.ajax({
+                    url:'products/filter/'+inputId ,
+                    type:'get',
+                    dataType:'html',
+                    success: function (data){
+                        $("#example1").empty();
+                        $("#example1").append(data);
+                        console.log(data);
+                    }
+                })
+            })
+        })
+    </script>
 @endsection

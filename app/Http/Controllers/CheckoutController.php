@@ -114,7 +114,7 @@ class CheckoutController extends Controller
                 }
 
 
-            Mail::send(new OrderPlaced($order));
+           // Mail::send(new OrderPlaced($order));
 
             Event::dispatch(new OrderConfirmation($order));
             //success
