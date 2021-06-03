@@ -7,13 +7,14 @@ compleate to  tasks
 >>> Admin factory is created to add data in admin table
 Login Id:- admin@admin.com
 Password:- password
->>>Login in only Admin 
+>>>Login in only Admin
 >>>Dashboard: Display count of total products, total orders, total users, total inactive users, total active users.
->>> Manage Products: (CRUD: Add, Update, Delete and Listing) 
+>>> Manage Products: (CRUD: Add, Update, Delete and Listing)
     -Create, delete and edit Products
     -products can select a category to add
+          -Products can category vise filters Products
     -product name can unique
-    -Product status (Available and Unavailable) (By default Available) using Ajax 
+    -Product status (Available and Unavailable) (By default Available) using Ajax
     -pagination and search (using ajax)
     -on Delete it should open confirmation modal, on confirming only it should delete the product
 >>> Manage Categories
@@ -21,14 +22,14 @@ Password:- password
     -Category name can unique
 >>> Manage Categories_Products
     -Create, delete and edit Categories_Products
->>> Manage User 
+>>> Manage User
     -Add, listing and Delete to User
     -user status can change is active and inactive
 >>> Manage orders
     -listing, View, and deletes Orders
     -change shipped status is change
 >>> Manage Order_Products
-    -listing and  view Orders products 
+    -listing and  view Orders products
 
 
 >>>>>>>>>User Side <<<<<<<<<<<<<
@@ -46,7 +47,7 @@ Password:- password
     - Product with Added cart, should give the ability to remove a product from the cart.
     - category vise filter to products
 
->>> Cart Page 
+>>> Cart Page
     - Display the list of products into a tabular form that is added to the cart
     - Display total price by summation of all the products
     - Display checkout button, on clicking of checkout order should get placed and items should get removed from the Cart.
@@ -56,12 +57,13 @@ Password:- password
 >>> checkout page
     - total Products purchasing
     - form to address place orders
-    - add to coupons 
+    - add to coupons
     - remove coupons
     - change total and subtotal to add and remove to coupons
-    - after complete, the payment process show the thanks page 
+    - after complete, the payment process show the thanks page
+          - Event and listener complete to send mail after order complete confirmations
     - create to save for Later (try)
-    
+
 
 >>> User
     - login and register to users
