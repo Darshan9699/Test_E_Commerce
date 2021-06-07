@@ -17,7 +17,9 @@ class AdminController extends Controller
             Auth::guard('admin')->login($user);
             return redirect()->route('admin.home');
         } else {
-            return redirect()->back('success_message','admin login is failed please try again');
+           // return redirect()->back('success_message','admin login is failed please try again');
+              return redirect()->back()->with('success_message','admin login is failed please try again');
+
         }
     }
 
